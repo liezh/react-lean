@@ -12,18 +12,17 @@ const Model = {
   reducers: {
     add(state, {payload}) {
       let b = false;
-      console.log("zzzzzzz", state.list);
       state.list.forEach(t => {
         if (t.key === payload.key) b = true;
       });
       if (b || state.list.length >= 10) {
-        return state;
+        return state.list;
       }
       return state.list.concat(payload);
     },
     setActivityKey(state, {payload}) {
-      return payload;
-    }
+      return {list: state, activityKey: payload};
+    },
   },
 };
 export default Model;

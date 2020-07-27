@@ -49,10 +49,8 @@ class AuthTabs extends React.Component {
           type="editable-card"
           onEdit={this.onEdit}
         >
-          {console.log("==", this.props.tabs)}
-          {console.log("--", this.props.activeKey)}
           {
-            this.props.tabs && this.props.tabs.map(t => {
+            this.props.tabs.list && this.props.tabs.list.map(t => {
               const Component = t.content;
               return <TabPane tab={t.title} key={t.key}>
                 <Authorized authority={this.authorized.authority} noMatch={this.noMatch}>
@@ -67,7 +65,8 @@ class AuthTabs extends React.Component {
   }
 
 }
-export default connect(({ global, settings }) => ({
+export default connect(({ global, settings, tabs }) => ({
   collapsed: global.collapsed,
   settings,
+  tabs,
 }))(AuthTabs)

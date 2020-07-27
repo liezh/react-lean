@@ -4,7 +4,7 @@
  * https://github.com/ant-design/ant-design-pro-layout
  */
 import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import { Link, useIntl, connect, history } from 'umi';
 import { GithubOutlined } from '@ant-design/icons';
 // import { Result, Button } from 'antd';
@@ -96,7 +96,6 @@ const TabsLayout = (props) => {
       type: 'tabs/setActivityKey',
       payload: tab.key,
     });
-    console.log("aaaaaaa", tabs.list);
   };
 
   return (
@@ -139,7 +138,6 @@ const TabsLayout = (props) => {
       {...props}
       {...settings}
     >
-      {console.log("www", Array.isArray(tabs))}
       <AuthTabs tabs={tabs.list} route={props.route} activeKey={tabs.activityKey}/>
     </ProLayout>
   )
