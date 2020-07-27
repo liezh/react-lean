@@ -60,7 +60,7 @@ const AuthTabs = (props) => {
       </Tabs>
     </div>
   );
-}
+};
 
 export default connect(({ global, settings, tabs }) => ({
   collapsed: global.collapsed,
