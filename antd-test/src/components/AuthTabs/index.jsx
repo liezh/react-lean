@@ -49,7 +49,7 @@ class AuthTabs extends React.Component {
           type="editable-card"
           onEdit={this.onEdit}
         >
-          {console.log("--", this.props.tabs)}
+          {console.log("==", this.props.tabs)}
           {console.log("--", this.props.activeKey)}
           {
             this.props.tabs && this.props.tabs.map(t => {

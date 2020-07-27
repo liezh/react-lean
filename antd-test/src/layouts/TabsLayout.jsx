@@ -4,7 +4,7 @@
  * https://github.com/ant-design/ant-design-pro-layout
  */
 import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link, useIntl, connect, history } from 'umi';
 import { GithubOutlined } from '@ant-design/icons';
 // import { Result, Button } from 'antd';
@@ -53,13 +53,16 @@ const defaultFooterDom = (
 );
 
 const TabsLayout = props => {
+
   const {
     dispatch,
     // children,
     settings,
   } = props;
-  let activeTabKey = null;
-  let tabs = [];
+
+  const [activeTabKey, setActiveTabKey] = useState();
+  const [tabs, setTabs] = useState([]);
+
   /**
    * constructor
    */
@@ -91,9 +94,12 @@ const TabsLayout = props => {
     tabs.forEach(t => {
       if (t.key === tab.key) b = true;
     });
-    activeTabKey = tab.key;
-    if (b) return;
-    tabs.push(tab);
+    setActiveTabKey(tab.key);
+    if (b || tabs.length >= 10) {
+      tabs.pop();
+      return;
+    }
+    setTabs(tabs.push(tab));
     console.log("++", tabs);
   };
 
@@ -144,5 +150,5 @@ const TabsLayout = props => {
 
 export default connect(({ global, settings }) => ({
   collapsed: global.collapsed,
-  settings,
+  settings
 }))(TabsLayout);
