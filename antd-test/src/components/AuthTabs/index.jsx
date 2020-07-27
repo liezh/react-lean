@@ -6,23 +6,21 @@ import {getAuthorityFromRouter} from "@/utils/utils";
 
 const {TabPane} = Tabs;
 
-class AuthTabs extends React.Component {
+const AuthTabs = (props) => {
+  const {
+    dispatch,
+    tabs,
+    route
+  } = props;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeKey: props.activeKey,
-      // location: {
-      //   pathname: '/',
-      // }
-    };
-  }
-
-  onChange = activeKey => {
-    this.setState({activeKey});
+  const onChange = activeKey => {
+    dispatch({
+      type: 'tabs/setActivityKey',
+      payload: activeKey,
+    });
   };
 
-  noMatch = () => {
+  const noMatch = () => {
     <Result
       status={403}
       title="403"
@@ -35,36 +33,35 @@ class AuthTabs extends React.Component {
     />
   };
 
-  authorized = getAuthorityFromRouter(this.props.route.routes,  '/') || {
+  const authorized = getAuthorityFromRouter(route.routes,  '/') || {
     authority: undefined,
   };
 
-  render() {
-    return (
-      <div>
-        <Tabs
-          hideAdd
-          onChange={this.onChange}
-          activeKey={this.state.activeKey}
-          type="editable-card"
-          onEdit={this.onEdit}
-        >
-          {
-            this.props.tabs.list && this.props.tabs.list.map(t => {
-              const Component = t.content;
-              return <TabPane tab={t.title} key={t.key}>
-                <Authorized authority={this.authorized.authority} noMatch={this.noMatch}>
-                  <Component/>
-                </Authorized>
-              </TabPane>
-            })
-          }
-        </Tabs>
-      </div>
-    );
-  }
-
+  return (
+    <div>
+      <Tabs
+        hideAdd
+        onChange={onChange}
+        activeKey={tabs.activeKey}
+        type="editable-card"
+        // onEdit={onEdit}
+      >
+        {console.log(tabs.activityKey)}
+        {
+          tabs.list && tabs.list.map(t => {
+            const Component = t.content;
+            return <TabPane tab={t.title} key={t.key}>
+              <Authorized authority={authorized.authority} noMatch={noMatch}>
+                <Component/>
+              </Authorized>
+            </TabPane>
+          })
+        }
+      </Tabs>
+    </div>
+  );
 }
+
 export default connect(({ global, settings, tabs }) => ({
   collapsed: global.collapsed,
   settings,

@@ -138,7 +138,7 @@ const TabsLayout = (props) => {
       {...props}
       {...settings}
     >
-      <AuthTabs tabs={tabs.list} route={props.route} activeKey={tabs.activityKey}/>
+      <AuthTabs route={props.route}/>
     </ProLayout>
   )
 };

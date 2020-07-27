@@ -16,12 +16,13 @@ const Model = {
         if (t.key === payload.key) b = true;
       });
       if (b || state.list.length >= 10) {
-        return state.list;
+        return state;
       }
-      return state.list.concat(payload);
+      return {...state, list: state.list.concat(payload)};
     },
     setActivityKey(state, {payload}) {
-      return {list: state, activityKey: payload};
+      console.log("xxxx", payload)
+      return {list: state.list, activityKey: payload};
     },
   },
 };
