@@ -52,16 +52,14 @@ const defaultFooterDom = (
   />
 );
 
-const TabsLayout = props => {
+const TabsLayout = (props) => {
 
   const {
     dispatch,
     // children,
     settings,
+    tabs,
   } = props;
-
-  const [activeTabKey, setActiveTabKey] = useState();
-  const [tabs, setTabs] = useState([]);
 
   /**
    * constructor
@@ -90,17 +88,15 @@ const TabsLayout = props => {
   const {formatMessage} = useIntl();
 
   const handleMenuItemClick = (tab) => {
-    let b = false;
-    tabs.forEach(t => {
-      if (t.key === tab.key) b = true;
+    dispatch({
+      type: 'tabs/add',
+      payload: tab,
     });
-    setActiveTabKey(tab.key);
-    if (b || tabs.length >= 10) {
-      tabs.pop();
-      return;
-    }
-    setTabs(tabs.push(tab));
-    console.log("++", tabs);
+    dispatch({
+      type: 'tabs/setActivityKey',
+      payload: tab.key,
+    });
+    console.log("aaaaaaa", tabs.list);
   };
 
   return (
@@ -118,7 +114,7 @@ const TabsLayout = props => {
           content: menuItemProps.component,
           title: menuItemProps.name,
         };
-        return <Link to={menuItemProps.path}  onClick={() => handleMenuItemClick(tab)}>{defaultDom}</Link>;
+        return <Link to={menuItemProps.path} onClick={() => handleMenuItemClick(tab)}>{defaultDom}</Link>;
       }}
       breadcrumbRender={(routers = []) => [
         {
@@ -143,12 +139,15 @@ const TabsLayout = props => {
       {...props}
       {...settings}
     >
-      <AuthTabs tabs={tabs} route={props.route} activeKey={activeTabKey}/>
+      {console.log("www", Array.isArray(tabs))}
+      <AuthTabs tabs={tabs.list} route={props.route} activeKey={tabs.activityKey}/>
     </ProLayout>
   )
 };
 
-export default connect(({ global, settings }) => ({
+export default connect(({ global, user, settings, tabs }) => ({
   collapsed: global.collapsed,
-  settings
+  user,
+  settings,
+  tabs
 }))(TabsLayout);
